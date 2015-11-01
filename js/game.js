@@ -119,6 +119,7 @@ var flapGame = (function(imageLoader, util){
     treePairs: undefined,
     resources: {
       // bird: '/img/bird.png',
+      sky: '/img/sky.jpg',
       treeDown: '/img/tree-down.png',
       treeUp: '/img/tree-up.png'
     },
@@ -222,7 +223,7 @@ var flapGame = (function(imageLoader, util){
 
         //Wing up and down
         gameObj.player.frameCount = gameObj.player.frameCount || 0;
-        gameObj.player.frameCount = gameObj.player.frameCount === 10 ? 0 : gameObj.player.frameCount + 1;
+        gameObj.player.frameCount = gameObj.player.frameCount === 5 ? 0 : gameObj.player.frameCount + 1;
 
         if (!gameObj.player.frameCount)
           gameObj.player.wingUp = !gameObj.player.wingUp;
@@ -267,6 +268,10 @@ var flapGame = (function(imageLoader, util){
     render: function(){
       //Clear buffer canvas
       util.clearCanvas(gameObj.bufferCanvas);
+      //Render background
+      var ctx = gameObj.bufferCanvas.getContext('2d');
+      var bgRes = gameObj.resources.sky;
+      ctx.drawImage(bgRes, 0, 0, bgRes.width, bgRes.height, 0, 0, gameObj.gameSize.width, gameObj.gameSize.height);
       //Render all tree pairs
       for (var i = 0; i < gameObj.treePairs.length; i++)
         gameObj.drawTreePair(gameObj.treePairs[i]);
