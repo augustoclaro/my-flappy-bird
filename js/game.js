@@ -7,7 +7,7 @@ var _imageLoader = (function(){
       img.onload = function(){
         _results[this.alt] = this;
         if (Object.keys(_results).length === Object.keys(images).length
-            && _.isFunction(cb))
+            && typeof cb === 'function')
             cb(_results);
       };
       img.src = images[key];
