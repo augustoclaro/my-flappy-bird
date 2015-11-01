@@ -35,14 +35,11 @@ var _util = (function(){
     random: function(min, max){
        return Math.floor(Math.random() * (max - min + 1)) + min;
     },
-    checkBoxCollision: function(box1, box2, lax){
-      //margin of error of collision
-      // lax = lax || 0;
-      lax = 0;
-      return box1.x - lax < box2.x + box2.w && //onde o player começa menor que onde o item termina - horizontal
-              box1.x + box1.w - lax > box2.x && //onde o player termina maior que onde o item começa - horizontal
-              box1.y + lax < box2.y + box2.h && //onde o player começa menor que onde o item termina - vertical
-              box1.y + box1.h + lax > box2.y; //onde o player termina maior que onde o item começa - vertical
+    checkBoxCollision: function(box1, box2){
+      return box1.x < box2.x + box2.w && //onde o player começa menor que onde o item termina - horizontal
+              box1.x + box1.w > box2.x && //onde o player termina maior que onde o item começa - horizontal
+              box1.y < box2.y + box2.h && //onde o player começa menor que onde o item termina - vertical
+              box1.y + box1.h > box2.y; //onde o player termina maior que onde o item começa - vertical
     }
   };
 })();
@@ -116,7 +113,10 @@ var flapGame = (function(imageLoader, util){
     gameLoop: undefined,
     gameCanvas: undefined,
     bufferCanvas: undefined,
-    treeSize: undefined,
+    treeSize: {
+      width: 82,
+      height: 381
+    },
     treePairs: undefined,
     resources: {
       sky: '/img/sky.png'
@@ -161,12 +161,6 @@ var flapGame = (function(imageLoader, util){
         //Load resources
         imageLoader.loadImages(gameObj.resources, function(loadedResources){
           gameObj.resources = loadedResources;
-          //Set tree size
-          var resizeFactor = 1.5;
-          gameObj.treeSize = {
-            width: gameObj.resources.treeDown.width / resizeFactor,
-            height: gameObj.resources.treeDown.height / resizeFactor
-          };
           //Start browser event handlers
           gameObj.detectInput();
           gameObj.startGameLoop();
@@ -282,9 +276,6 @@ var flapGame = (function(imageLoader, util){
     },
     drawTreePair: function(treePair){
       var ctx = gameObj.bufferCanvas.getContext('2d');
-      var treeDownRes = gameObj.resources.treeDown;
-      var treeUpRes = gameObj.resources.treeUp;
-      var resizeFactor = 1.5;
 
       var upCorner = treePair.y * gameObj.gameSize.height / 100;
       var downCorner = upCorner + gameObj.player.size.height * 3;
@@ -295,11 +286,9 @@ var flapGame = (function(imageLoader, util){
       treePair.collisions = [{x: treePair.x, y: treeDownY, w: gameObj.treeSize.width, h: gameObj.treeSize.height},
                               {x: treePair.x, y: treeUpY, w: gameObj.treeSize.width, h: gameObj.treeSize.height}];
 
-      ctx.drawImage(treeDownRes, 0, 0, treeDownRes.width, treeDownRes.height, treePair.x, treeDownY, gameObj.treeSize.width, gameObj.treeSize.height);
-      ctx.drawImage(treeUpRes, 0, 0, treeUpRes.width, treeUpRes.height, treePair.x, treeUpY, gameObj.treeSize.width, gameObj.treeSize.height);
       ctx.fillStyle = 'brown';
-      ctx.fillRect(treePair.x,treeDownY,gameObj.treeSize.width,gameObj.treeSize.height);
-      ctx.fillRect(treePair.x,treeUpY,gameObj.treeSize.width,gameObj.treeSize.height);
+      ctx.fillRect(treePair.x, treeDownY, gameObj.treeSize.width, gameObj.treeSize.height);
+      ctx.fillRect(treePair.x, treeUpY, gameObj.treeSize.width, gameObj.treeSize.height);
     }
   };
 
