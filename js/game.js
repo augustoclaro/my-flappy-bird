@@ -37,7 +37,8 @@ var _util = (function(){
     },
     checkBoxCollision: function(box1, box2, lax){
       //margin of error of collision
-      lax = lax || 0;
+      // lax = lax || 0;
+      lax = 0;
       return box1.x - lax < box2.x + box2.w && //onde o player começa menor que onde o item termina - horizontal
               box1.x + box1.w - lax > box2.x && //onde o player termina maior que onde o item começa - horizontal
               box1.y + lax < box2.y + box2.h && //onde o player começa menor que onde o item termina - vertical
@@ -73,8 +74,8 @@ var flapGame = (function(imageLoader, util){
       y: undefined,
       gravity: undefined,
       size: {
-        width: 70,
-        height: 70
+        width: 50,
+        height: 50
       },
       renderToCanvas: function(){
         var ctx = gameObj.bufferCanvas.getContext('2d');
@@ -85,12 +86,12 @@ var flapGame = (function(imageLoader, util){
         ctx.fillRect(gameObj.player.x, gameObj.player.y, gameObj.player.size.width, gameObj.player.size.height);
         ctx.fillStyle = 'yellow';
         //Draw bird's beak
-        ctx.fillRect(gameObj.player.x + gameObj.player.size.width - 10, gameObj.player.y + 10, 20, 20);
+        ctx.fillRect(gameObj.player.x + gameObj.player.size.width - 5, gameObj.player.y + 12, 15, 10);
         //Draw bird's wing
         ctx.beginPath();
-        ctx.moveTo(gameObj.player.x + 10, gameObj.player.y + 30);
-        ctx.lineTo(gameObj.player.x + 50, gameObj.player.y + 30);
-        ctx.lineTo(gameObj.player.x + 30, gameObj.player.y + (gameObj.player.wingUp ? 10 : 50));
+        ctx.moveTo(gameObj.player.x + 5, gameObj.player.y + 25);
+        ctx.lineTo(gameObj.player.x + 40, gameObj.player.y + 25);
+        ctx.lineTo(gameObj.player.x + 22.5, gameObj.player.y + (gameObj.player.wingUp ? 13 : 37));
         ctx.fill();
       }
     },
@@ -119,7 +120,7 @@ var flapGame = (function(imageLoader, util){
     treePairs: undefined,
     resources: {
       // bird: '/img/bird.png',
-      sky: '/img/sky.jpg',
+      sky: '/img/sky.png',
       treeDown: '/img/tree-down.png',
       treeUp: '/img/tree-up.png'
     },
@@ -289,7 +290,7 @@ var flapGame = (function(imageLoader, util){
       var resizeFactor = 1.5;
 
       var upCorner = treePair.y * gameObj.gameSize.height / 100;
-      var downCorner = upCorner + gameObj.player.size.height * 2;
+      var downCorner = upCorner + gameObj.player.size.height * 3;
 
       var treeDownY = upCorner - gameObj.treeSize.height;
       var treeUpY = downCorner;
@@ -299,9 +300,9 @@ var flapGame = (function(imageLoader, util){
 
       ctx.drawImage(treeDownRes, 0, 0, treeDownRes.width, treeDownRes.height, treePair.x, treeDownY, gameObj.treeSize.width, gameObj.treeSize.height);
       ctx.drawImage(treeUpRes, 0, 0, treeUpRes.width, treeUpRes.height, treePair.x, treeUpY, gameObj.treeSize.width, gameObj.treeSize.height);
-      ctx.fillStyle = 'black';
-      // ctx.fillRect(treePair.x,treeDownY,gameObj.treeSize.width,gameObj.treeSize.height);
-      // ctx.fillRect(treePair.x,treeUpY,gameObj.treeSize.width,gameObj.treeSize.height);
+      ctx.fillStyle = 'brown';
+      ctx.fillRect(treePair.x,treeDownY,gameObj.treeSize.width,gameObj.treeSize.height);
+      ctx.fillRect(treePair.x,treeUpY,gameObj.treeSize.width,gameObj.treeSize.height);
     }
   };
 
