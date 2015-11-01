@@ -87,11 +87,10 @@ var flapGame = (function(imageLoader, util){
         //Draw bird's beak
         ctx.fillRect(gameObj.player.x + gameObj.player.size.width - 10, gameObj.player.y + 10, 20, 20);
         //Draw bird's wing
-        // ctx.fillRect(gameObj.player.x + 10, gameObj.player.y + 30, 40, 20);
         ctx.beginPath();
         ctx.moveTo(gameObj.player.x + 10, gameObj.player.y + 30);
         ctx.lineTo(gameObj.player.x + 50, gameObj.player.y + 30);
-        ctx.lineTo(gameObj.player.x + 30, gameObj.player.y + 50);
+        ctx.lineTo(gameObj.player.x + 30, gameObj.player.y + (gameObj.player.wingUp ? 10 : 50));
         ctx.fill();
       }
     },
@@ -221,6 +220,13 @@ var flapGame = (function(imageLoader, util){
         //Apply gravity
         _player.y += _player.gravity;
 
+        //Wing up and down
+        gameObj.player.frameCount = gameObj.player.frameCount || 0;
+        gameObj.player.frameCount = gameObj.player.frameCount === 10 ? 0 : gameObj.player.frameCount + 1;
+
+        if (!gameObj.player.frameCount)
+          gameObj.player.wingUp = !gameObj.player.wingUp;
+
         //Move all tree pairs
         for (var i = 0; i < gameObj.treePairs.length; i++){
           var treePair = gameObj.treePairs[i];
@@ -242,7 +248,6 @@ var flapGame = (function(imageLoader, util){
     },
     hasLost: function(){
       return (gameObj.player.y > (gameObj.gameSize.height - gameObj.player.size.height))
-              || (gameObj.player.y < -10)
               || gameObj.checkTreeCollision();
     },
     checkTreeCollision: function(){
