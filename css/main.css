@@ -1,0 +1,17 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+#gameCanvas{
+  border:1px solid black;
+}
+#game-container{
+  width:800px;
+  height:600px;
+  margin:0 auto;
+}
+
+h2{
+  text-align:center;
+}
