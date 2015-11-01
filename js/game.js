@@ -119,10 +119,7 @@ var flapGame = (function(imageLoader, util){
     treeSize: undefined,
     treePairs: undefined,
     resources: {
-      // bird: '/img/bird.png',
-      sky: '/img/sky.png',
-      treeDown: '/img/tree-down.png',
-      treeUp: '/img/tree-up.png'
+      sky: '/img/sky.png'
     },
     createCanvas: function(){
       var el = document.createElement('canvas');
