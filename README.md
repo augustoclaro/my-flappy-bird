@@ -1,6 +1,8 @@
 #my-flappy-bird
 Flappy bird like html 5 and javascript game, for fun and learn.
 
+All the code is commented and free to use anyway you want.
+
 #Setup game
 Make sure you have node and npm installed.
 
