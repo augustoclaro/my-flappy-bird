@@ -6,7 +6,7 @@ All the code is commented and free to use anyway you want.
 #Setup game
 Make sure you have node and npm installed.
 
-After checking out the prokecy, on command-line, navigate to the server folder and run
+After checking out the project, on command-line, navigate to the server folder and run
 
 ```sh
 npm install
