@@ -142,7 +142,7 @@ var flapGame = (function(imageLoader, util){
     },
     //Game image resources
     resources: {
-      sky: '/img/sky.png'
+      sky: 'img/sky.png'
     },
     createCanvas: function(){
       //Create canvas from game settings
