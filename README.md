@@ -20,5 +20,6 @@ node server.js
 Now, you can go to your browser and check the game out at http://localhost:8080
 
 My website article (portuguese): http://augustoclaro.com.br/jogo-inspirado-em-flappy-bird-feito-em-html-5-e-javascript-puro/
+Demo: http://www.augustoclaro.com.br/flappy-game/
 
 Thanks for reading :D
