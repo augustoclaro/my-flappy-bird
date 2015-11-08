@@ -1,57 +1,3 @@
-var _imageLoader = (function(){
-  //Image loader helper
-  var _results = {};
-  var _loadImages = function(images, cb){
-    for (var key in images){
-      //Create new image
-      var img = new Image();
-      //Store key on alt attribute
-      img.alt = key;
-      img.onload = function(){
-        //Set the loaded image to the results object using the stored key
-        _results[this.alt] = this;
-        //if all images are loaded, execute callback, if exists
-        if (Object.keys(_results).length === Object.keys(images).length
-            && typeof cb === 'function')
-            cb(_results);
-      };
-      img.src = images[key];
-    }
-  };
-
-  return {
-    loadImages: _loadImages
-  };
-})();
-
-var _util = (function(){
-  return {
-    clearCanvas: function(canvas){
-      //clear canvas helper
-      var context = canvas.getContext('2d');
-      context.clearRect(0, 0, canvas.width, canvas.height);
-    },
-    transferCanvas: function(canvasFrom, canvasTo){
-      //transfer data between canvas helper. Used to buffer the image data before showing
-      var sourceContext = canvasFrom.getContext('2d');
-      var destContext = canvasTo.getContext('2d');
-      var imgData = sourceContext.getImageData(0, 0, canvasFrom.width, canvasFrom.height);
-      destContext.putImageData(imgData, 0, 0, 0, 0, canvasFrom.width, canvasFrom.height);
-    },
-    random: function(min, max){
-      //generate random number between range
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    },
-    checkBoxCollision: function(box1, box2){
-      //check collision between boxes
-      return box1.x < box2.x + box2.w && //onde o player começa menor que onde o item termina - horizontal
-              box1.x + box1.w > box2.x && //onde o player termina maior que onde o item começa - horizontal
-              box1.y < box2.y + box2.h && //onde o player começa menor que onde o item termina - vertical
-              box1.y + box1.h > box2.y; //onde o player termina maior que onde o item começa - vertical
-    }
-  };
-})();
-
 var flapGame = (function(imageLoader, util){
   //Main game object
   var gameObj = {
@@ -123,8 +69,6 @@ var flapGame = (function(imageLoader, util){
         y: util.random(20, 60)
       };
     },
-    //Main game FPS
-    FPS: 20,
     //Game size configs
     gameSize: {
       width: 800,
@@ -199,8 +143,8 @@ var flapGame = (function(imageLoader, util){
       };
     },
     startGameLoop: function(){
-      //Start loop. Run gameObj.FPS times per second
-      gameObj.gameLoop = setInterval(gameObj.loopAction, 1000 / gameObj.FPS)
+      //Start game loop
+      gameObj.gameLoop = GameLoop(gameObj.loopAction).start();
     },
     loopAction: function(){
       //Update game entries
@@ -343,4 +287,4 @@ var flapGame = (function(imageLoader, util){
   };
 
   return gameObj;
-})(_imageLoader, _util);
+})(ImageLoader, Util);
